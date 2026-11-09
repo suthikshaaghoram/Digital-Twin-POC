@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Avg_Feedback_Rating__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+    Feedback_Count__c &gt; 0,
+     Total_Feedback_Rating__c / Feedback_Count__c,
+    NULL
+)</formula>
+    <label>Avg Feedback Rating</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

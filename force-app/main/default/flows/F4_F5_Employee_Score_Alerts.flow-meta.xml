@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Send_Email_Action_1</name>
+        <label>Send Email Action 1</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recipientAddresses</name>
+            <value>
+                <collectionElements>
+                    <elementReference>$Label.Admin_Email</elementReference>
+                </collectionElements>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <inputConfiguratorMode>Custom</inputConfiguratorMode>
+                <stringValue>CurrentUser</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>composeEmailContent</name>
+            <value>
+                <stringValue>True</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+                <stringValue>Flow error in F4_F5_Employee_Score_Alerts</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <inputConfiguratorMode>Custom</inputConfiguratorMode>
+                <stringValue>{!$Flow.FaultMessage} plus {!$Record.Id}</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+        <versionString>3.0.1</versionString>
+    </actionCalls>
+    <apiVersion>68.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Add_HR_Burnout_Recipient</name>
+        <label>Add HR Burnout Recipient</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>vBurnoutRecipients</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Label.HR_Task_Owner_ID</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Burnout_Manager_Has_User</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Add_HR_Promo_Recipient</name>
+        <label>Add_HR_Promo_Recipient</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>vPromoRecipients</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Label.HR_Task_Owner_ID</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Promo_Manager_Has_User</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Add_Manager_Burnout_Recipient</name>
+        <label>Add Manager Burnout Recipient</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>vBurnoutRecipients</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.Manager__r.User__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Notify_Burnout</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Adds a value to the vPromoRecipients collection variable to build the list of promotion notification recipients</description>
+        <name>Add_Manager_Promo_Recipient</name>
+        <label>Add Manager Promo Recipient</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>vPromoRecipients</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Label.HR_Task_Owner_ID</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Promotion_Notification</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Burnout_HR_Task</name>
+        <label>Burnout_HR_Task</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Promotion_Crossed</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Burnout_Crossed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>fBurnoutCrossed</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_HR_Burnout_Task</targetReference>
+            </connector>
+            <label>Burnout Crossed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Burnout_Manager_Has_User</name>
+        <label>Burnout Manager Has User</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Notify_Burnout</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Manager__r.User__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Add_Manager_Burnout_Recipient</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Promo_Manager_Has_User</name>
+        <label>Promo Manager Has User</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>has_user</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Manager__r.User__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Manager_Review_Task</targetReference>
+            </connector>
+            <label>has user</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Promotion_Crossed</name>
+        <label>Promotion_Crossed</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>promotion_exceeds</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>fPromotionCrossed</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_HR_Promotion_Task</targetReference>
+            </connector>
+            <label>promotion exceeds</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>fBurnoutCrossed</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+  NOT(ISBLANK({!$Record.Burnout_Score__c})),
+  {!$Record.Burnout_Score__c} &gt;= 80,
+  OR(
+    ISBLANK({!$Record__Prior.Burnout_Score__c}),
+    {!$Record__Prior.Burnout_Score__c} &lt; 80
+  )
+)</expression>
+    </formulas>
+    <formulas>
+        <name>fDueIn14Days</name>
+        <dataType>Date</dataType>
+        <expression>TODAY() + 14</expression>
+    </formulas>
+    <formulas>
+        <name>fDueIn2Days</name>
+        <dataType>Date</dataType>
+        <expression>TODAY() + 2</expression>
+    </formulas>
+    <formulas>
+        <name>fPromotionCrossed</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+  NOT(ISBLANK({!$Record.Promotion_Score__c})),
+  {!$Record.Promotion_Score__c} &gt;= 90,
+  OR(
+    ISBLANK({!$Record__Prior.Promotion_Score__c}),
+    {!$Record__Prior.Promotion_Score__c} &lt; 90
+  )
+)</expression>
+    </formulas>
+    <interviewLabel>F4_F5 Employee Score Alerts {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>F4_F5 Employee Score Alerts</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Create_HR_Burnout_Task</name>
+        <label>Create HR Burnout Task</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Add_HR_Burnout_Recipient</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>fDueIn2Days</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>tBurnoutDescription</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>$Label.HR_Task_Owner_ID</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>High</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <stringValue>Burnout risk :  {!$Record.Name__c}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhatId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_HR_Promotion_Task</name>
+        <label>Create_HR_Promotion_Task</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Add_HR_Promo_Recipient</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Send_Email_Action_1</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>fDueIn2Days</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>tPromoDescription</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>$Label.HR_Task_Owner_ID</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <stringValue>Promotion candidate: {!$Record.Name}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhatId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Manager_Review_Task</name>
+        <label>Create_Manager_Review_Task</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Add_Manager_Promo_Recipient</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Send_Email_Action_1</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>fDueIn14Days</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>tPromoDescription</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>$Record.Manager__r.User__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <stringValue>Prepare promotion review: {!$Record.Name}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhatId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Burnout_HR_Task</targetReference>
+        </connector>
+        <filterFormula>OR(
+  AND(NOT(ISBLANK({!$Record.Burnout_Score__c})),
+      {!$Record.Burnout_Score__c} &gt;= 80,
+      OR(ISBLANK({!$Record__Prior.Burnout_Score__c}),
+         {!$Record__Prior.Burnout_Score__c} &lt; 80)),
+  AND(NOT(ISBLANK({!$Record.Promotion_Score__c})),
+      {!$Record.Promotion_Score__c} &gt;= 90,
+      OR(ISBLANK({!$Record__Prior.Promotion_Score__c}),
+         {!$Record__Prior.Promotion_Score__c} &lt; 90))
+)</filterFormula>
+        <object>Employee__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <name>Notify_Burnout</name>
+        <label>Notify Burnout</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <flowName>Sub_Send_Notification</flowName>
+        <inputAssignments>
+            <name>vBody</name>
+            <value>
+                <elementReference>tBurnoutDescription</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>vRecipients</name>
+            <value>
+                <elementReference>vBurnoutRecipients</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>vTargetId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>vTitle</name>
+            <value>
+                <stringValue>Burnout risk : {!$Record.Name__c}</stringValue>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
+        <name>Promotion_Notification</name>
+        <label>Promotion Notification</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <flowName>Sub_Send_Notification</flowName>
+        <inputAssignments>
+            <name>Recipients</name>
+            <value>
+                <elementReference>$Label.Admin_Email</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>vBody</name>
+            <value>
+                <elementReference>tPromoDescription</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>vRecipients</name>
+            <value>
+                <elementReference>vPromoRecipients</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>vTargetId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>vTitle</name>
+            <value>
+                <stringValue>Promotion candidate: {!$Record.Name}</stringValue>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <textTemplates>
+        <name>tBurnoutDescription</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;pre class=&quot;ql-syntax&quot; spellcheck=&quot;false&quot;&gt;Employee: {!$Record.Name}
+
+Burnout Score: {!$Record.Burnout_Score__c}
+Burnout Level: {!$Record.Burnout_Level__c}
+
+Please conduct a wellbeing check-in with the employee.
+Understand the workload and employee&apos;s current situation.
+&lt;/pre&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>tPromoDescription</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>{!$Record.Name} has a promotion score of {!$Record.Promotion_Score__c}.
+
+Please review the employee for promotion readiness.</text>
+    </textTemplates>
+    <variables>
+        <name>vBurnoutRecipients</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>vPromoRecipients</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Logout_After_Login</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(NOT(ISBLANK(Login_Time__c)),
+NOT(ISBLANK(Logout_Time__c)), Logout_Time__c &lt;=
+Login_Time__c)</errorConditionFormula>
+    <errorDisplayField>Logout_Time__c</errorDisplayField>
+    <errorMessage>Logout time must be after login time.</errorMessage>
+</ValidationRule>

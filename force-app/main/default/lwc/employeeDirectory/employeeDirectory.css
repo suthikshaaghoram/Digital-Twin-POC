@@ -1,0 +1,39 @@
+.toolbar {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 16px;
+    align-items: end;
+    padding: 16px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-top: 1px solid #e5e5e5;
+    color: #444;
+}
+
+.page-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.empty-state {
+    padding: 32px;
+    text-align: center;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    .pagination {
+        flex-direction: column;
+        gap: 12px;
+    }
+}

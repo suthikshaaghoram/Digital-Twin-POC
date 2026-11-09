@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Manager_Not_Self</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(Manager__c)),
+    Manager__c = Id
+)</errorConditionFormula>
+    <errorMessage>An employee cannot be their own
+manager.</errorMessage>
+</ValidationRule>

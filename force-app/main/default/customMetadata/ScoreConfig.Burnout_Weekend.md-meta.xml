@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Burnout_Weekend</label>
+    <protected>false</protected>
+    <values>
+        <field>Cap__c</field>
+        <value xsi:type="xsd:double">6.0</value>
+    </values>
+    <values>
+        <field>Description__c</field>
+        <value xsi:type="xsd:string">Weekend days worked in 30 days</value>
+    </values>
+    <values>
+        <field>Factor__c</field>
+        <value xsi:type="xsd:string">Weekend</value>
+    </values>
+    <values>
+        <field>Score_Type__c</field>
+        <value xsi:type="xsd:string">Burnout</value>
+    </values>
+    <values>
+        <field>Weight__c</field>
+        <value xsi:type="xsd:double">20.0</value>
+    </values>
+</CustomMetadata>

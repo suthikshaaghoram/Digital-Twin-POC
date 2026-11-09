@@ -1,0 +1,137 @@
+<template>
+    <lightning-card title="Workforce Health" icon-name="standard:dashboard">
+
+        <lightning-button
+            slot="actions"
+            label="Refresh"
+            icon-name="utility:refresh"
+            onclick={handleRefresh}>
+        </lightning-button>
+
+        <div class="slds-p-horizontal_medium">
+
+            <template lwc:if={error}>
+                <p class="slds-text-color_error">{error}</p>
+            </template>
+
+            <template lwc:elseif={data}>
+
+                <!-- KPI Cards -->
+                <div class="kpis">
+
+                    <c-kpi-card
+                        label="Active employees"
+                        value={data.totalActive}
+                        tone="info">
+                    </c-kpi-card>
+
+                    <c-kpi-card
+                        label="Average burnout"
+                        value={data.avgBurnout}
+                        sub="0 to 100"
+                        tone="warning">
+                    </c-kpi-card>
+
+                    <c-kpi-card
+                        label="High burnout risk"
+                        value={data.burnoutHigh}
+                        sub="score 70 or more"
+                        tone="danger">
+                    </c-kpi-card>
+
+                    <c-kpi-card
+                        label="High attrition risk"
+                        value={data.attritionHigh}
+                        tone="danger">
+                    </c-kpi-card>
+
+                    <c-kpi-card
+                        label="Promotion candidates"
+                        value={data.promotionReady}
+                        sub="score 70 or more"
+                        tone="success">
+                    </c-kpi-card>
+
+                </div>
+
+                <!-- Burnout and Attrition -->
+                <div class="two">
+
+                    <section>
+                        <h3>Burnout by level</h3>
+
+                        <c-bar-list
+                            items={burnoutItems}
+                            max={total}>
+                        </c-bar-list>
+                    </section>
+
+                    <section>
+                        <h3>Attrition risk by level</h3>
+
+                        <c-bar-list
+                            items={attritionItems}
+                            max={total}>
+                        </c-bar-list>
+                    </section>
+
+                </div>
+
+                <!-- Heatmap and Department Burnout -->
+                <div class="two">
+
+                    <section>
+                        <h3>Risk heat map</h3>
+
+                        <c-risk-heatmap
+                            departments={data.departments}>
+                        </c-risk-heatmap>
+                    </section>
+
+                    <section>
+                        <h3>Average burnout by department</h3>
+
+                        <c-bar-list
+                            items={deptItems}
+                            max="100">
+                        </c-bar-list>
+                    </section>
+
+                </div>
+
+                <!-- Top 5 Employees -->
+                <div class="two">
+
+                    <section>
+                        <h3>Most at risk of burnout</h3>
+
+                        <lightning-datatable
+                            key-field="Id"
+                            data={burnoutRows}
+                            columns={riskColumns}
+                            hide-checkbox-column>
+                        </lightning-datatable>
+                    </section>
+
+                    <section>
+                        <h3>Promotion candidates</h3>
+
+                        <lightning-datatable
+                            key-field="Id"
+                            data={promoRows}
+                            columns={promoColumns}
+                            hide-checkbox-column>
+                        </lightning-datatable>
+                    </section>
+
+                </div>
+
+                <p class="note">
+                    Scores are rule-based decision support, updated nightly.
+                </p>
+
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

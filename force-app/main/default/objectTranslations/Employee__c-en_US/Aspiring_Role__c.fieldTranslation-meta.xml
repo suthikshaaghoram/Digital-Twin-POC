@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Target role for Skill Gap Analysis --></help>
+    <label><!-- Aspiring Role --></label>
+    <name>Aspiring_Role__c</name>
+    <relationshipLabel><!-- Employees (Aspiring Role) --></relationshipLabel>
+</CustomFieldTranslation>

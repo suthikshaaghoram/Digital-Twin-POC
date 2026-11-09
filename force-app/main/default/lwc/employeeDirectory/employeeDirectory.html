@@ -1,0 +1,80 @@
+<template>
+    <lightning-card title="Employee Directory" icon-name="standard:people">
+        <div class="toolbar">
+            <lightning-input
+                type="search"
+                label="Search Employees"
+                placeholder="Search by name, ID or email"
+                onchange={handleSearch}>
+            </lightning-input>
+
+            <lightning-combobox
+                label="Department"
+                value={selectedDepartment}
+                options={departmentOptions}
+                onchange={handleDepartmentChange}>
+            </lightning-combobox>
+
+            <lightning-combobox
+                label="Employment Status"
+                value={selectedStatus}
+                options={statusOptions}
+                onchange={handleStatusChange}>
+            </lightning-combobox>
+
+            <lightning-button
+                label="Refresh"
+                icon-name="utility:refresh"
+                onclick={handleRefresh}>
+            </lightning-button>
+        </div>
+
+        <template if:true={isLoading}>
+            <lightning-spinner
+                alternative-text="Loading employees">
+            </lightning-spinner>
+        </template>
+
+        <template if:true={hasRecords}>
+            <lightning-datatable
+                key-field="Id"
+                data={employees}
+                columns={columns}
+                onrowaction={handleRowAction}
+                hide-checkbox-column>
+            </lightning-datatable>
+        </template>
+
+        <template if:true={noRecords}>
+            <div class="empty-state">
+                No employees found for the selected filters.
+            </div>
+        </template>
+
+        <template if:true={errorMessage}>
+            <div class="slds-p-around_medium slds-text-color_error">
+                {errorMessage}
+            </div>
+        </template>
+
+        <div class="pagination">
+            <span>{totalRecords} employees</span>
+
+            <div class="page-controls">
+                <lightning-button
+                    label="Previous"
+                    onclick={handlePrevious}
+                    disabled={isFirstPage}>
+                </lightning-button>
+
+                <span>{pageLabel}</span>
+
+                <lightning-button
+                    label="Next"
+                    onclick={handleNext}
+                    disabled={isLastPage}>
+                </lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+</template>

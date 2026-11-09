@@ -1,0 +1,92 @@
+<template>
+    <lightning-card title="AI Employee Digital Twin" icon-name="standard:employee">
+        <div class="dashboard-container">
+
+            <!-- Dashboard Header -->
+            <div class="header-section">
+                <div>
+                    <h1>Employee Analytics Dashboard</h1>
+                    <p>Workforce performance and risk monitoring</p>
+                </div>
+
+                <lightning-button
+                    label="Recalculate Scores"
+                    icon-name="utility:refresh"
+                    variant="brand"
+                    onclick={handleRecalculate}
+                    disabled={isLoading}>
+                </lightning-button>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="summary-grid">
+
+                <div class="summary-card">
+                    <span>Total Employees</span>
+                    <h2>{totalEmployees}</h2>
+                </div>
+
+                <div class="summary-card burnout">
+                    <span>High / Critical Burnout</span>
+                    <h2>{highBurnoutCount}</h2>
+                </div>
+
+                <div class="summary-card promotion">
+                    <span>Promotion Candidates</span>
+                    <h2>{promotionCount}</h2>
+                </div>
+
+                <div class="summary-card attrition">
+                    <span>High Attrition Risk</span>
+                    <h2>{highAttritionCount}</h2>
+                </div>
+
+            </div>
+
+            <!-- Search -->
+            <div class="search-section">
+                <lightning-input
+                    type="search"
+                    label="Search Employee"
+                    placeholder="Enter employee name..."
+                    value={searchKey}
+                    onchange={handleSearch}>
+                </lightning-input>
+            </div>
+
+            <!-- Employee Table -->
+            <div class="table-section">
+
+                <h2>Employee Score Details</h2>
+
+                <template lwc:if={isLoading}>
+                    <lightning-spinner
+                        alternative-text="Loading employee scores">
+                    </lightning-spinner>
+                </template>
+
+                <template lwc:elseif={hasRecords}>
+                    <lightning-datatable
+                        key-field="Id"
+                        data={filteredEmployees}
+                        columns={columns}
+                        hide-checkbox-column>
+                    </lightning-datatable>
+                </template>
+
+                <template lwc:else>
+                    <p class="empty-message">
+                        No employee records found.
+                    </p>
+                </template>
+
+            </div>
+
+            <!-- Last Updated -->
+            <div class="footer-section">
+                <span>Last updated: {lastUpdated}</span>
+            </div>
+
+        </div>
+    </lightning-card>
+</template>

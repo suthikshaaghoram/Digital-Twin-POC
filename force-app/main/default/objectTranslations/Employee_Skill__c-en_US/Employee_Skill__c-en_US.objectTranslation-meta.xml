@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Employee Skill</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Employee Skills</value>
+    </caseValues>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Last used date cannot be in future --></errorMessage>
+        <name>Last_used_date_cannot_be_future</name>
+    </validationRules>
+</CustomObjectTranslation>

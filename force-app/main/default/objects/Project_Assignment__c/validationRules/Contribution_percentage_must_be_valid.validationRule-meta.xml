@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contribution_percentage_must_be_valid</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(
+    Contribution_Percent__c &lt; 0,
+    Contribution_Percent__c &gt; 100
+)</errorConditionFormula>
+    <errorMessage>Contribution must be between 0 and 100%</errorMessage>
+</ValidationRule>

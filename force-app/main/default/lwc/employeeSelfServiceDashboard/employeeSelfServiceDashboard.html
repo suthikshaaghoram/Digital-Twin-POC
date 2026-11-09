@@ -1,0 +1,176 @@
+<template>
+    <lightning-card
+        title="Employee Self-Service Dashboard"
+        icon-name="standard:employee">
+
+        <div class="dashboard-container">
+
+            <template lwc:if={isLoading}>
+                <lightning-spinner
+                    alternative-text="Loading employee details">
+                </lightning-spinner>
+            </template>
+
+            <template lwc:elseif={employee}>
+
+                <div class="profile-header">
+
+                    <div class="profile-icon">
+                        <lightning-icon
+                            icon-name="standard:avatar"
+                            size="large">
+                        </lightning-icon>
+                    </div>
+
+                    <div class="profile-details">
+                        <h1>{employee.Name}</h1>
+                        <p>My Employee Profile</p>
+                    </div>
+
+                    <div class="status-badge">
+                        {employee.Employment_Status__c}
+                    </div>
+
+                </div>
+
+                <div class="section-title">
+                    My Personal Information
+                </div>
+
+                <div class="profile-grid">
+
+                    <div class="field-box">
+                        <label>Employee Name</label>
+                        <p>{employee.Name}</p>
+                    </div>
+
+                    <div class="field-box">
+                        <label>Email Address</label>
+
+                        <template lwc:if={isEditing}>
+                            <lightning-input
+                                type="email"
+                                variant="label-hidden"
+                                value={editEmail}
+                                onchange={handleEmailChange}
+                                required>
+                            </lightning-input>
+                        </template>
+
+                        <template lwc:else>
+                            <p>{employee.Email__c}</p>
+                        </template>
+                    </div>
+
+                    <div class="field-box">
+                        <label>Phone Number</label>
+
+                        <template lwc:if={isEditing}>
+                            <lightning-input
+                                type="tel"
+                                variant="label-hidden"
+                                value={editPhone}
+                                onchange={handlePhoneChange}
+                                required>
+                            </lightning-input>
+                        </template>
+
+                        <template lwc:else>
+                            <p>{employee.Phone__c}</p>
+                        </template>
+                    </div>
+
+                    <div class="field-box">
+                        <label>Work Mode</label>
+                        <p>{employee.Work_Mode__c}</p>
+                    </div>
+
+                    <div class="field-box">
+                        <label>Employment Status</label>
+                        <p>{employee.Employment_Status__c}</p>
+                    </div>
+
+                </div>
+
+                <div class="button-section">
+
+                    <template lwc:if={isEditing}>
+
+                        <lightning-button
+                            label="Cancel"
+                            onclick={handleCancel}>
+                        </lightning-button>
+
+                        <lightning-button
+                            label="Save Changes"
+                            variant="brand"
+                            onclick={handleSave}
+                            disabled={isSaving}>
+                        </lightning-button>
+
+                    </template>
+
+                    <template lwc:else>
+
+                        <lightning-button
+                            label="Edit Profile"
+                            icon-name="utility:edit"
+                            variant="brand"
+                            onclick={handleEdit}>
+                        </lightning-button>
+
+                    </template>
+
+                </div>
+
+                <div class="section-title">
+                    Upload Employee Documents
+                </div>
+
+                <div class="upload-section">
+
+                    <lightning-icon
+                        icon-name="utility:upload"
+                        size="large">
+                    </lightning-icon>
+
+                    <h2>Upload Your Documents</h2>
+
+                    <p>
+                        Upload your resume, certificates,
+                        and other employee documents.
+                    </p>
+
+                    <lightning-file-upload
+                        label="Choose Files"
+                        name="employeeDocument"
+                        record-id={employee.Id}
+                        accept={acceptedFormats}
+                        onuploadfinished={handleUploadFinished}>
+                    </lightning-file-upload>
+
+                </div>
+
+            </template>
+
+            <template lwc:else>
+                <div class="empty-state">
+                    <lightning-icon
+                        icon-name="utility:warning"
+                        size="large">
+                    </lightning-icon>
+
+                    <h2>Employee Record Not Found</h2>
+
+                    <p>
+                        Your Salesforce user is not connected
+                        to an Employee record.
+                        Please contact HR.
+                    </p>
+                </div>
+            </template>
+
+        </div>
+
+    </lightning-card>
+</template>

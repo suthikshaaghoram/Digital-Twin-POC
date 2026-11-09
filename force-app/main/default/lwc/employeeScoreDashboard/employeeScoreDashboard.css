@@ -1,0 +1,101 @@
+.dashboard-container {
+    padding: 20px;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.header-section h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #16325c;
+}
+
+.header-section p {
+    color: #666;
+    margin-top: 5px;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.summary-card {
+    background: #f4f7fb;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 5px solid #0176d3;
+}
+
+.summary-card span {
+    font-size: 13px;
+    color: #555;
+}
+
+.summary-card h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 10px;
+    color: #16325c;
+}
+
+.summary-card.burnout {
+    border-left-color: #e53935;
+}
+
+.summary-card.promotion {
+    border-left-color: #2e844a;
+}
+
+.summary-card.attrition {
+    border-left-color: #e58a00;
+}
+
+.search-section {
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+.table-section {
+    margin-top: 20px;
+}
+
+.table-section h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+}
+
+.footer-section {
+    text-align: right;
+    color: #777;
+    font-size: 12px;
+    margin-top: 15px;
+}
+
+@media screen and (max-width: 900px) {
+    .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+}

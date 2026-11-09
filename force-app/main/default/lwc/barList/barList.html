@@ -1,0 +1,13 @@
+<template>
+    <template for:each={rows} for:item="r">
+        <div key={r.label} class="hrow">
+            <span class="hl">{r.label}</span>
+
+            <div class="track">
+                <div class="fill" style={r.style}></div>
+            </div>
+
+            <span class="hv">{r.value}</span>
+        </div>
+    </template>
+</template>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Expiry_Date_After_Issue_Date</fullName>
+    <active>true</active>
+    <description>Ensure the Certification Expiry Date is later than the Issue Date.</description>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(Issue_Date__c)),
+    NOT(ISBLANK(Expiry_Date__c)),
+    Expiry_Date__c &lt;= Issue_Date__c
+)</errorConditionFormula>
+    <errorMessage>Expiry Date must be after Issue Date.</errorMessage>
+</ValidationRule>

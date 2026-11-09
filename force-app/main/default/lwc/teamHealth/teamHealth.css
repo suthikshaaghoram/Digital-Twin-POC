@@ -1,0 +1,39 @@
+:host {
+    display: block;
+    --team-primary: #0176d3;
+    --team-border: #e5e5e5;
+    --team-background: #f8fafc;
+}
+
+lightning-card {
+    display: block;
+    border-radius: 12px;
+}
+
+.slds-p-horizontal_medium {
+    padding: 16px;
+    background-color: var(--team-background);
+}
+
+lightning-datatable {
+    display: block;
+    border: 1px solid var(--team-border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.slds-text-color_error {
+    color: #ba0517;
+    font-weight: 600;
+}
+
+p {
+    font-size: 14px;
+    color: #444;
+    padding: 16px;
+    text-align: center;
+}
+
+lightning-card:hover {
+    --slds-c-card-radius-border: 12px;
+}

@@ -1,0 +1,24 @@
+<template>
+    <lightning-card title="My Team Health" icon-name="standard:team_member">
+        <div class="slds-p-horizontal_medium slds-p-bottom_small">
+
+            <template lwc:if={error}>
+                <p class="slds-text-color_error">{error}</p>
+            </template>
+
+            <template lwc:elseif={hasTeam}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={rows}
+                    columns={columns}
+                    hide-checkbox-column>
+                </lightning-datatable>
+            </template>
+
+            <template lwc:elseif={loaded}>
+                <p>No direct reports were found for you.</p>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

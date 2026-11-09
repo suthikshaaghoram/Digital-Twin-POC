@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Admin_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Admin Email</shortDescription>
+        <value>subselinterns@gmail.com</value>
+    </labels>
+    <labels>
+        <fullName>HR_Task_Owner_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HR Task Owner ID</shortDescription>
+        <value>005g700000FwGuzAAF</value>
+    </labels>
+</CustomLabels>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DashboardFolder xmlns="http://soap.sforce.com/2006/04/metadata">
+    <folderShares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>subselinterns.33f9e7f48c46@agentforce.com</sharedTo>
+        <sharedToType>User</sharedToType>
+    </folderShares>
+    <name>Digital Twin Dashboard</name>
+</DashboardFolder>

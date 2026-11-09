@@ -1,0 +1,12 @@
+<template>
+    <div class="grid">
+        <template for:each={cells} for:item="c">
+            <div
+                key={c.key}
+                class={c.cls}
+                style={c.style}>
+                {c.text}
+            </div>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,117 @@
+<template>
+    <lightning-card title="Employee Digital Twin" icon-name="standard:employee">
+        <div class="slds-p-horizontal_medium">
+
+            
+            <template lwc:if={error}>
+                <p class="slds-text-color_error">{error}</p>
+            </template>
+
+            
+            <template lwc:elseif={twin}>
+
+                <p class="meta">{summaryLine}</p>
+
+                
+                <template lwc:if={hasScores}>
+                    <div class="gauges">
+
+                        <c-score-gauge
+                            label="Burnout"
+                            value={emp.Burnout_Score__c}
+                            level-text={emp.Burnout_Level__c}>
+                        </c-score-gauge>
+
+                        <c-score-gauge
+                            label="Promotion"
+                            value={emp.Promotion_Score__c}
+                            type="positive">
+                        </c-score-gauge>
+
+                        <c-score-gauge
+                            label="Attrition"
+                            value={emp.Attrition_Score__c}
+                            level-text={emp.Attrition_Level__c}>
+                        </c-score-gauge>
+
+                        <c-score-gauge
+                            label="Performance"
+                            value={emp.Performance_Score__c}
+                            type="positive">
+                        </c-score-gauge>
+
+                    </div>
+
+                    
+                    <h3 class="section">Why these scores</h3>
+
+                    <ul class="reasons">
+                        <template for:each={reasons} for:item="r">
+                            <li key={r.id}>{r.text}</li>
+                        </template>
+                    </ul>
+                </template>
+
+                <template lwc:else>
+                    <p class="muted">
+                        Scores are not available for your role.
+                    </p>
+                </template>
+
+               
+                <template lwc:if={hasAttendance}>
+                    <h3 class="section">Last 14 days: overtime hours</h3>
+
+                    <div class="bars">
+                        <template for:each={bars} for:item="b">
+                            <div key={b.key} class="barcol" title={b.title}>
+                                <div class={b.cls} style={b.style}></div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <p class="muted">
+                        Orange bars are weekend days.
+                    </p>
+                </template>
+
+                
+                <h3 class="section">Goals</h3>
+
+                <template for:each={goals} for:item="g">
+                    <div key={g.Id} class="row">
+                        <span>{g.title}</span>
+
+                        <lightning-progress-bar
+                            value={g.pct}
+                            size="small">
+                        </lightning-progress-bar>
+                    </div>
+                </template>
+
+                
+                <h3 class="section">Certifications</h3>
+
+                <template for:each={certs} for:item="c">
+                    <div key={c.Id} class="row between">
+                        <span>{c.name}</span>
+                        <span class={c.cls}>{c.flag}</span>
+                    </div>
+                </template>
+
+                
+                <h3 class="section">Training</h3>
+
+                <template for:each={trainings} for:item="t">
+                    <div key={t.Id} class="row between">
+                        <span>{t.course}</span>
+                        <span class="muted">
+                            {t.status} | Due {t.due}
+                        </span>
+                    </div>
+                </template>
+
+            </template>
+        </div>
+    </lightning-card>
+</template>

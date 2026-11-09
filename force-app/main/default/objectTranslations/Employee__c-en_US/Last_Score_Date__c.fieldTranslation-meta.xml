@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- When scores were last calculated --></help>
+    <label><!-- Last Score Date --></label>
+    <name>Last_Score_Date__c</name>
+</CustomFieldTranslation>

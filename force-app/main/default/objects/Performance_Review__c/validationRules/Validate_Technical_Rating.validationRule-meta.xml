@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Validate_Technical_Rating</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(
+   Technical_Rating__c &lt;1,
+   Technical_Rating__c &gt;5
+)</errorConditionFormula>
+    <errorDisplayField>Technical_Rating__c</errorDisplayField>
+    <errorMessage>Rating must be between 1 and 5.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Aspiring_Role__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Target role for Skill Gap Analysis</description>
+    <inlineHelpText>Target role for Skill Gap Analysis</inlineHelpText>
+    <label>Aspiring Role</label>
+    <referenceTo>Job_Role__c</referenceTo>
+    <relationshipLabel>Employees (Aspiring Role)</relationshipLabel>
+    <relationshipName>Employees1</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

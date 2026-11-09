@@ -1,0 +1,27 @@
+.grid {
+    display: grid;
+    grid-template-columns: 1.6fr repeat(4, 1fr);
+    gap: 4px;
+}
+
+.cell {
+    padding: 8px 6px;
+    text-align: center;
+    border-radius: 4px;
+    background: #f1f5f9;
+    font-size: 13px;
+    color: #0f172a;
+}
+
+.head {
+    background: transparent;
+    font-weight: 600;
+    color: #475569;
+    font-size: 12px;
+}
+
+.dept {
+    text-align: left;
+    background: transparent;
+    font-weight: 600;
+}

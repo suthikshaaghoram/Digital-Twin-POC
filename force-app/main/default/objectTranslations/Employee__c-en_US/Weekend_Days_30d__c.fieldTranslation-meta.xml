@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Weekend working days in last 30 days --></help>
+    <label><!-- Weekend Days 30d --></label>
+    <name>Weekend_Days_30d__c</name>
+</CustomFieldTranslation>
